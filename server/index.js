@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 
-import authRoutes from "./routes/authRoute.js";
+import routes from "./routes/index.js"
 
 dotenv.config();
 
@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("Root");
 });
 
-app.use("/auth", authRoutes);
+app.use("/api", routes);
 
 app.listen(PORT, () => {
   console.log(`Backend URL: http://localhost:${PORT}`);
