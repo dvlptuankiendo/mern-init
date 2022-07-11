@@ -29,9 +29,9 @@ const login = async (req, res, next) => {
 
 const register = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) throw new Error(BAD_REQUEST);
-    const newUser = await authService.register(username, password);
+    const { username, password, role } = req.body;
+    if (!username || !password || role) throw new Error(BAD_REQUEST);
+    const newUser = await authService.register(username, password, role);
     res.status(200).json(newUser);
   } catch (error) {
     res.status(401).json({ message: error.message });

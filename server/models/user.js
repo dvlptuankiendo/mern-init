@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
+import { ROLES } from "../utils/constants.js";
+
 const { Schema } = mongoose;
+const roles = Object.values(ROLES)
 
 const userSchema = Schema({
   username: {
@@ -12,6 +15,7 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
+  role: { type: String, enum: roles },
 });
 
 const User = mongoose.model("User", userSchema);

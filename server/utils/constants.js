@@ -12,3 +12,9 @@ export const BAD_REQUEST = "Bad request";
 export const jwtOptions = {
   expiresIn: JWT_LIFETIME,
 };
+
+export const ROLES = {
+  ADMIN: "admin",
+  TEACHER: "teacher",
+  STUDENT: "student"
+}

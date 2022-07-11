@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs"
-import dotenv from "dotenv"
+import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
 
 import User from "../models/user.js";
-import { BAD_REQUEST, jwtOptions, salt } from "../utils/constants.js";
+import { BAD_REQUEST, jwtOptions, salt, ROLES } from "../utils/constants.js";
 
 dotenv.config();
 
@@ -20,17 +20,21 @@ const login = async (username, password) => {
   const isValidPassword = bcrypt.compareSync(password, existUser.password);
   if (!isValidPassword) throw new Error(BAD_REQUEST);
 
-  const payload = { username };
+  const { role } = existUser;
+  const payload = { username, role };
   const newToken = jwt.sign(payload, JWT_SECRET, jwtOptions);
   return newToken;
 };
 
-const register = async (username, password) => {
+const register = async (username, password, role) => {
   const existUser = await User.findOne({ username });
   if (existUser) throw new Error("User exist");
 
+  const existRole = Object.values(ROLES).find(role);
+  if (!existRole) throw new Error("Invalid role");
+
   const hashedPassword = bcrypt.hashSync(password, salt);
-  const newUser = new User({ username, password: hashedPassword });
+  const newUser = new User({ username, password: hashedPassword, role });
   await newUser.save();
 
   return { username };
