@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+
+import "./App.css";
+import { verify } from "./utils/api.js";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  useEffect(() => {
+    verifyUser();
+  }, []);
+
+  const verifyUser = async () => {
+    try {
+      const data = await verify();
+      if (data) setIsAuthenticated(true);
+    } catch (error) {}
+  };
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  return <div className="App">{isAuthenticated ? "true" : "false"}</div>;
 }
 
 export default App;
