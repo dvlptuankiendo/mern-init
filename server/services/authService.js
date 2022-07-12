@@ -28,10 +28,12 @@ const login = async (username, password) => {
 
 const register = async (username, password, role) => {
   const existUser = await User.findOne({ username });
-  if (existUser) throw new Error("User exist");
+  if (existUser) throw new Error(BAD_REQUEST);
 
-  const existRole = Object.values(ROLES).find(role);
-  if (!existRole) throw new Error("Invalid role");
+  const roles = Object.values(ROLES)
+  const existRole = roles.find(r => r === role);
+
+  if (!existRole) throw new Error(BAD_REQUEST);
 
   const hashedPassword = bcrypt.hashSync(password, salt);
   const newUser = new User({ username, password: hashedPassword, role });

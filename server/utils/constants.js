@@ -8,6 +8,8 @@ const { JWT_LIFETIME } = process.env;
 export const salt = bcrypt.genSaltSync(10);
 
 export const BAD_REQUEST = "Bad request";
+export const UNAUTHORIZED = "Unauthorized";
+export const FORBIDDEN = "Forbidden"
 
 export const jwtOptions = {
   expiresIn: JWT_LIFETIME,
